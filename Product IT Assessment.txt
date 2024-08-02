@@ -75,20 +75,14 @@ paths:
             schema:
               type: object
               properties:
-                setname:
-                  type: string
-                domain:
-                  type: string
-                createdby:
-                  type: string
-                createdtime:
-                  type: string
-                  format: date-time
+
                 questions:
                   type: array
                   items:
                     type: object
                     properties:
+                      questionId:
+                        type: string
                       question:
                         type: string
                       options:
