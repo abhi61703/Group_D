@@ -1,0 +1,447 @@
+openapi: 3.0.0
+info:
+  title: Product IT Assessment
+  version: 1.0.0
+  description: API documentation for the Product IT Assessment.
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /create:
+    get:
+      summary: Get all assessments
+      responses:
+        '200':
+          description: A list of all assessments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    slNo:
+                      type: integer
+                      example: 1
+                    setName:
+                      type: string
+                      example: "Set 1"
+                    createdBy:
+                      type: string
+                      example: "John Doe"
+                    domainName:
+                      type: string
+                      example: "Finance"
+                    status:
+                      type: string
+                      example: "Initiated"
+
+  /create/newassessment:
+    post:
+      summary: Create a new set
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                setName:
+                  type: string
+                  example: "New Set"
+                domainName:
+                  type: string
+                  example: "Healthcare"
+      responses:
+        '201':
+          description: New set created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  setName:
+                    type: string
+                  domainName:
+                    type: string
+
+  /create/newassessment/{setname}/questions:
+    get:
+      summary: Get questions for a specific set
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+      responses:
+        '200':
+          description: A list of questions for the specified set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    slNo:
+                      type: integer
+                      example: 1
+                    questionName:
+                      type: string
+                      example: "What is your favorite color?"
+
+  /create/newassessment/{setname}/questions/{slNo}:
+    get:
+      summary: Get details of a specific question
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Details of a specific question
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questionName:
+                    type: string
+                    example: "What is your favorite color?"
+                  options:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        optionName:
+                          type: string
+                          example: "Red"
+                        suggestions:
+                          type: string
+                          example: "Suggest 'Crimson' if needed."
+                    example:
+                      - optionName: "Red"
+                        suggestions: "Suggest 'Crimson' if needed."
+                      - optionName: "Blue"
+                        suggestions: "Suggest 'Sky Blue' if needed."
+                  
+                    
+                    
+  /create/newassessment/{setname}/questions/addquestion:
+    post:
+      summary: Add a new question to a set
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionName:
+                  type: string
+                  example: "What is your favorite season?"
+      responses:
+        '201':
+          description: New question added successfully
+  
+  /create/newassessment/{setname}/questions/{slNo}/deletequestion:
+    delete:
+      summary: Delete a whole question
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Question deleted successfully
+          
+  /create/newassessment/{setname}/questions/save:
+    post:
+      summary: Save all questions within a set
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+      responses:
+        '200':
+          description: All questions saved successfully
+
+  /create/newassessment/{setname}/questions/{slNo}/addoptions:
+    post:
+      summary: Add an option or suggestion to a specific question
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      optionName:
+                        type: string
+                        example: "New Option"
+                      suggestions:
+                        type: string
+                        example: "Additional suggestion"
+                  example:
+                    - optionName: "New Option"
+                      suggestions: "Additional suggestion"
+                
+      responses:
+        '200':
+          description: Option or suggestion added successfully
+
+  /create/new/{setname}/assessment/{slNo}/delete:
+    delete:
+      summary: Delete an option and its associated suggestions from a specific question
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: option
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "Red"
+      responses:
+        '200':
+          description: Option and its associated suggestions deleted successfully
+
+  /create/newassessment/{setname}/questions/{slNo}/save:
+    post:
+      summary: Save changes to a specific question, including options and their suggestions
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionName:
+                  type: string
+                  example: "What is your favorite color?"
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      optionName:
+                        type: string
+                        example: "Red"
+                      suggestions:
+                        type: array
+                        items:
+                          type: string
+                        example: ["Suggest 'Crimson' if needed."]
+                  example:
+                    - optionName: "Red"
+                      suggestions: ["Suggest 'Crimson' if needed."]
+                    - optionName: "Blue"
+                      suggestions: ["Suggest 'Sky Blue' if needed."]
+                
+      responses:
+        '200':
+          description: Changes saved successfully
+
+
+  
+
+  
+
+  
+
+  /create/newassessment/{setname}/questions/{existsetname}:
+    get:
+      summary: Get questions from an existing set
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: existsetname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Existing Set"
+      responses:
+        '200':
+          description: A list of questions from the specified existing set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    slNo:
+                      type: integer
+                      example: 1
+                    questionName:
+                      type: string
+                      example: "What is your favorite season?"
+                      
+  /create/newassessment/{setname}/questions/{existsetname}/{slNo}:
+    post:
+      summary: Add a question from an existing set to a new set by serial number
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "New Set"
+        - name: existsetname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Existing Set"
+        - name: slNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionDetails:
+                  type: object
+                  properties:
+                    questionName:
+                      type: string
+                      example: "What is your favorite season?"
+                    options:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          optionName:
+                            type: string
+                            example: "Winter"
+                          suggestions:
+                            type: array
+                            items:
+                              type: string
+                            example: ["Add more options if needed."]
+                      example:
+                        - optionName: "Winter"
+                          suggestions: ["Add 'Snow' if needed."]
+                        
+                    
+              description: Details of the question being added, including options and suggestions
+      responses:
+        '200':
+          description: Question successfully added from existing set to the new set
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Question added successfully from existing set."
+                  addedQuestion:
+                    type: object
+                    properties:
+                      serialId:
+                        type: integer
+                        example: 1
+                      questionName:
+                        type: string
+                        example: "What is your favorite season?"
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            optionName:
+                              type: string
+                              example: "Winter"
+                            suggestions:
+                              type: array
+                              items:
+                                type: string
+                              example: ["Add 'Snow' if needed."]
+                      
+
+        
