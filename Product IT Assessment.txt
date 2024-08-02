@@ -118,6 +118,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  slNo:
+                    type: integer
+                    example: 1
                   questionName:
                     type: string
                     example: "What is your favorite color?"
@@ -157,6 +160,9 @@ paths:
             schema:
               type: object
               properties:
+                slNo:
+                  type: integer
+                  example: 1
                 questionName:
                   type: string
                   example: "What is your favorite season?"
@@ -289,6 +295,9 @@ paths:
             schema:
               type: object
               properties:
+                slNo:
+                  type: integer
+                  example: 1
                 questionName:
                   type: string
                   example: "What is your favorite color?"
@@ -384,6 +393,9 @@ paths:
             schema:
               type: object
               properties:
+                slNo:
+                  type: integer
+                  example: 2
                 questionDetails:
                   type: object
                   properties:
@@ -442,6 +454,3 @@ paths:
                               items:
                                 type: string
                               example: ["Add 'Snow' if needed."]
-                      
-
-        
