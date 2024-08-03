@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Survey API
-  description: API documentation for the Survey application.
+  title: Product IT Assessment
+  description: API documentation for the Product IT Assessment
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
