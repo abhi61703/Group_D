@@ -1,0 +1,227 @@
+openapi: 3.0.1
+info:
+  title: Assessment Microservice API
+  description: API for managing assessments
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /assessment:
+    get:
+      summary: Get All Assessments
+      operationId: getAllAssessments
+      responses:
+        '200':
+          description: List of all assessments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    set_id:
+                      type: string
+                    set_name:
+                      type: string
+                    created_by:
+                      type: string
+                    domain:
+                      type: string
+                    status:
+                      type: string
+                      enum: [Pending, Accepted, Rejected]
+                    questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question_id:
+                            type: string
+                          question_name:
+                            type: string
+                          options:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                option:
+                                  type: string
+                                suggestions:
+                                  type: string
+
+  /assessment/{setname}:
+    get:
+      summary: Get Assessment by Set Name
+      operationId: getAssessmentBySetName
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          description: The unique name of the assessment set
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Assessment details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  set_id:
+                    type: string
+                  set_name:
+                    type: string
+                  created_by:
+                    type: string
+                  domain:
+                    type: string
+                  status:
+                    type: string
+                    enum: [Pending, Accepted, Rejected]
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question_id:
+                          type: string
+                        question_name:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              option:
+                                type: string
+                              suggestions:
+                                type: string
+
+    post:
+      summary: Create an Assessment
+      operationId: createAssessment
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          description: The unique name of the assessment set
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set_id:
+                  type: string
+                set_name:
+                  type: string
+                domain:
+                  type: string
+                created_by:
+                  type: string
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question_id:
+                        type: string
+                      question_name:
+                        type: string
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            option:
+                              type: string
+                            suggestions:
+                              type: string
+      responses:
+        '201':
+          description: Assessment created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  set_id:
+                    type: string
+
+  /assessment/{setname}/{questionid}:
+    put:
+      summary: Update Question in Assessment
+      operationId: updateQuestion
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          description: The unique name of the assessment set
+          schema:
+            type: string
+        - name: questionid
+          in: path
+          required: true
+          description: The unique identifier of the question
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      option:
+                        type: string
+                      suggestions:
+                        type: string
+      responses:
+        '200':
+          description: Question updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    delete:
+      summary: Delete Question from Assessment
+      operationId: deleteQuestion
+      parameters:
+        - name: setname
+          in: path
+          required: true
+          description: The unique name of the assessment set
+          schema:
+            type: string
+        - name: questionid
+          in: path
+          required: true
+          description: The unique identifier of the question
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Question deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
