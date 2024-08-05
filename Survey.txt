@@ -1,0 +1,141 @@
+openapi: 3.0.1
+info:
+  title: Survey Microservice API
+  description: API for managing surveys
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /survey/{survey_id}:
+    get:
+      summary: Get Survey by ID
+      operationId: getSurveyById
+      parameters:
+        - name: survey_id
+          in: path
+          required: true
+          description: The unique identifier of the survey
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Survey details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  survey_id:
+                    type: string
+                  domain_name:
+                    type: string
+                  company_name:
+                    type: string
+                  email:
+                    type: string
+                  set_name:
+                    type: string
+                  status:
+                    type: string
+                    enum: [Initiated, Accepted, Rejected]
+                  questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question_id:
+                            type: string
+                          question_name:
+                            type: string
+                          options:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                option:
+                                  type: string
+                                suggestions:
+                                  type: string
+
+  /survey:
+    get:
+      summary: Get All Surveys
+      operationId: getAllSurveys
+      responses:
+        '200':
+          description: List of all surveys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    survey_id:
+                      type: string
+                    domain_name:
+                      type: string
+                    company_name:
+                      type: string
+                    email:
+                      type: string
+                    set_name:
+                      type: string
+                    status:
+                      type: string
+                      enum: [Pending, Accepted, Rejected]
+                    questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question_id:
+                            type: string
+                          question_name:
+                            type: string
+                          options:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                option:
+                                  type: string
+                                suggestions:
+                                  type: string
+
+    post:
+      summary: Create a Survey
+      operationId: createSurvey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                survey_id:
+                  type: string
+                domain_name:
+                  type: string
+                company_name:
+                  type: string
+                email:
+                  type: string
+                set_name:
+                  type: string
+                status:
+                  type: string
+                  enum: [Pending, Accepted, Rejected]
+                
+      responses:
+        '201':
+          description: Survey created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  survey_id:
+                    type: string
